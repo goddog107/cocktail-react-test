@@ -135,6 +135,10 @@ body {
   color: black;
 }
 
+.cocktail-item:hover {
+  text-decoration: none;
+}
+
 .cocktail-item .card-body {
   padding: 12px;
 }

@@ -51,7 +51,7 @@ class Cocktail extends Component {
 
     return (
       <div className="container my-4">
-        <div className="text-center mb-3">
+        <div className="text-center mb-4">
           <button className="round-button float-left" onClick={this.handleBack.bind(this)}>
             <i className="fa fa-angle-left"></i>
           </button>
