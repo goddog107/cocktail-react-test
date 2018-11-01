@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import CocktailService from '../services/CocktailService'
+import Common from '../Common'
 import faker from 'faker'
+import $ from 'jquery'
 
 
 class Cocktails extends Component {
@@ -10,39 +11,82 @@ class Cocktails extends Component {
     
     this.state = {
       cocktails: [],
-      search: ''
+      filteredCocktails: [],
+      search: '',
+      showSearch: false
     }
   }
 
   componentDidMount() {
-    CocktailService.getCocktails(this, 'cocktails');
+    this.getCocktails();
   }
 
-  search(cocktails) {
+  getCocktails() {
+    $('.loading').show();
+
+    fetch('http://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Cocktail_glass', {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {
+        $('.loading').hide();
+
+        let drinks = data.drinks === undefined ? [] : data.drinks;
+        for (let i = 0; i < drinks.length; i++) {
+          let drink = drinks[i];
+          let count = parseInt(Math.random() * 3) + 2;
+          let tags = [];
+          for (let j = 0; j < count; j++) {
+            tags.push(faker.commerce.productName());
+          }
+          drink.tags = tags;
+        }
+
+        this.setState({
+          cocktails: drinks,
+          filteredCocktails: drinks
+        });
+        console.log('cocktails', drinks);
+      })
+      .catch(error => {
+        Common.handleError(error);
+      });
+  }
+
+  handleChange(event) {
+    let name = event.target.name;
+    let state = this.state;
+    state[name] = event.target.value;
+    this.setState(state);
+    if (name === 'search') {
+      this.search(event.target.value);
+    }
+  }
+
+  toggleSearch() {
+    this.setState({
+      showSearch: !this.state.showSearch
+    });
+  }
+
+  search(search) {
+    search = search.toUpperCase();
     let filteredCocktails = [];
-    let drinks = this.state.cocktails.drinks === undefined ? [] : this.state.cocktails.drinks;
-    let search = this.state.search.toUpperCase();
+    let drinks = this.state.cocktails;
     for (let i = 0; i < drinks.length; i++) {
       let drink = drinks[i];
       if (drink.strDrink.toUpperCase().indexOf(search) > -1) {
-        let count = parseInt(Math.random() * 3) + 2;
-        let tags = [];
-        for (let j = 0; j < count; j++) {
-          tags.push(faker.commerce.productName());
-        }
-        drink.tags = tags;
-        filteredCocktails.push(drink);        
+        filteredCocktails.push(drink); 
       }
     }
-
-    return filteredCocktails;
+    this.setState({
+      filteredCocktails: filteredCocktails
+    });
   }
 
   render() {
-    let filteredCocktails = this.search(this.state.cocktails);
-    console.log('cocktails', filteredCocktails);
-    
-    let cocktails = filteredCocktails.map(function(item, i) {
+
+    let cocktails = this.state.filteredCocktails.map(function(item, i) {
       let tags = item.tags.map(function(tag, j) {
         return (
           <li key={'tag-' + item.idDrink + '-' + j}>
@@ -70,10 +114,26 @@ class Cocktails extends Component {
       );
     });
 
+    if (cocktails.length === 0) {
+      cocktails = (
+        <div className="text-center">Find other cocktails...</div>
+      )
+    }
+
     return (
       <div className="container my-4">
         <div className="text-center mb-3">
-          <h5 className="">Random drinks 0.1</h5>
+          <button className="search-button float-right" onClick={this.toggleSearch.bind(this)}>
+            <i className="fa fa-search"></i>
+          </button>
+          <div style={{height: 40}}>
+            {!this.state.showSearch ?
+              <h5 className="">Random drinks 0.1</h5>
+              :
+              <input className="search-input" placeholder="Search by name"
+                name="search" value={this.state.search} onChange={this.handleChange.bind(this)} />
+            }
+          </div>
         </div>
         {cocktails}
       </div>

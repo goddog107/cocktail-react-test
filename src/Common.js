@@ -62,19 +62,7 @@ export default class Common extends React.Component {
 
     return true;
   }
-
-  static handleSuccess(data, instance, first, second) {
-    $('.loading').hide();
-
-    let success = !Common.handleError(data);
-    if (success) {
-      let state = instance.state;
-      if (first !== null) state[first] = data;
-      if (first !== null) state[second] = data;
-      instance.setState(state);
-    }
-  }
-
+  
   static isNone(value) {
     return value === '' || value === undefined || value === 'undefined' || value === null || value === 'null';
   }
