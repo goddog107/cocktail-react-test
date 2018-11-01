@@ -130,3 +130,26 @@ body {
   background: #4ebcd1;
   color: white;
 }
+
+.cocktail-item {
+  color: black;
+}
+
+.cocktail-item .card-body {
+  padding: 12px;
+}
+
+.cocktail-item .thumbnail {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.cocktail-item ul {
+  margin: 10px 0 0 0;
+  padding: 0 0 0 20px;
+}
+
+.cocktail-item ul li {
+  font-size: 12px;
+  color: rgb(112, 112, 112);
+}
