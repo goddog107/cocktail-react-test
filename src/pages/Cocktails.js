@@ -11,7 +11,7 @@ class Cocktails extends Component {
       cocktails: []
     }
   }
-  
+
   componentDidMount() {
     CocktailService.getCocktails(this, 'cocktails');
   }
@@ -20,8 +20,15 @@ class Cocktails extends Component {
     console.log('cocktails', this.state.cocktails);
 
     return (
-      <div>
-        Cocktails
+      <div className="container my-3">
+        <div className="text-center">
+          <h5 className="">Random drinks 0.1</h5>
+        </div>
+        <div className="card">
+          <div className="card-body">
+            Cocktail
+          </div>
+        </div>
       </div>
     );
   }
