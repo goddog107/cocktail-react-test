@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Common from '../Common'
 import faker from 'faker'
+import { Link } from 'react-router-dom'
 import $ from 'jquery'
 
 
@@ -96,7 +97,8 @@ class Cocktails extends Component {
       });
 
       return (
-        <div key={'cocktail-' + item.idDrink} className="card mb-3 cocktail-item box-shadow">
+        <Link key={'cocktail-' + item.idDrink} className="card mb-3 cocktail-item box-shadow"
+          to={'/' + item.idDrink}>
           <div className="card-body">
             <div className="row">
               <div className="col-7">
@@ -110,7 +112,7 @@ class Cocktails extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       );
     });
 
@@ -123,12 +125,12 @@ class Cocktails extends Component {
     return (
       <div className="container my-4">
         <div className="text-center mb-3">
-          <button className="search-button float-right" onClick={this.toggleSearch.bind(this)}>
+          <button className="round-button float-right" onClick={this.toggleSearch.bind(this)}>
             <i className="fa fa-search"></i>
           </button>
           <div style={{height: 40}}>
             {!this.state.showSearch ?
-              <h5 className="">Random drinks 0.1</h5>
+              <h5>Random drinks 0.1</h5>
               :
               <input className="search-input" placeholder="Search by name"
                 name="search" value={this.state.search} onChange={this.handleChange.bind(this)} />

@@ -154,15 +154,24 @@ body {
   color: rgb(112, 112, 112);
 }
 
-.search-button {
-  background: none;
+.round-button {
+  background: rgba(255, 255, 255, 0.192);
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
   border: none;
   color: white;
   outline: none !important;
+  text-align: center !important;
 }
 
-.search-button:active {
-  color: rgb(247, 228, 255);
+.round-button i {
+  margin-top: 7px;
+  vertical-align: super;
+}
+
+.round-button:active {
+  background: rgba(255, 255, 255, 0.288);
 }
 
 .search-input {
@@ -176,4 +185,8 @@ body {
 
 .search-input::placeholder {
   color: #b6f3ff;
+}
+
+.single-tag, .single-tag-label {
+  color: rgb(112, 112, 112);
 }
